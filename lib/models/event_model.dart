@@ -6,6 +6,7 @@ class EventModel {
   final DateTime date;
   final String placeId;
   final String description;
+  final String imageUrl;
 
   EventModel({
     required this.id,
@@ -13,6 +14,7 @@ class EventModel {
     required this.date,
     required this.placeId,
     required this.description,
+    this.imageUrl = '',
   });
 
   // Convert to Map for writing to Firestore
@@ -22,6 +24,7 @@ class EventModel {
       'date': Timestamp.fromDate(date),
       'placeId': placeId,
       'description': description,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -42,6 +45,24 @@ class EventModel {
       date: parsedDate,
       placeId: map['placeId'] ?? '',
       description: map['description'] ?? '',
+      imageUrl: map['imageUrl'] ?? '',
+    );
+  }
+
+  EventModel copyWith({
+    String? title,
+    DateTime? date,
+    String? placeId,
+    String? description,
+    String? imageUrl,
+  }) {
+    return EventModel(
+      id: id,
+      title: title ?? this.title,
+      date: date ?? this.date,
+      placeId: placeId ?? this.placeId,
+      description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 }

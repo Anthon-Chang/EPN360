@@ -5,6 +5,8 @@ class PlaceModel {
   final double lat;
   final double lng;
   final String description;
+  final String googlePlaceId;
+  final String address;
 
   PlaceModel({
     required this.id,
@@ -13,6 +15,8 @@ class PlaceModel {
     required this.lat,
     required this.lng,
     required this.description,
+    this.googlePlaceId = '',
+    this.address = '',
   });
 
   // Convert to Map for writing to Firestore
@@ -23,6 +27,8 @@ class PlaceModel {
       'lat': lat,
       'lng': lng,
       'description': description,
+      'googlePlaceId': googlePlaceId,
+      'address': address,
     };
   }
 
@@ -35,6 +41,8 @@ class PlaceModel {
       lat: (map['lat'] as num?)?.toDouble() ?? 0.0,
       lng: (map['lng'] as num?)?.toDouble() ?? 0.0,
       description: map['description'] ?? '',
+      googlePlaceId: map['googlePlaceId'] ?? '',
+      address: map['address'] ?? '',
     );
   }
 }
