@@ -60,7 +60,6 @@ class DefaultFirebaseOptions {
     projectId: 'epn360-e218b',
     storageBucket: 'epn360-e218b.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBvRtI7H99pwusaM64apMqQimBtvZ1H98Q',
     appId: '1:422358209937:ios:b761ba9d4fa87b705d7630',
