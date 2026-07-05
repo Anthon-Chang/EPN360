@@ -11,6 +11,7 @@ import '../../theme/app_colors.dart';
 import '../../utils/image_helper.dart';
 import '../../widgets/current_location_picker.dart';
 
+
 class EventFormPage extends StatefulWidget {
   const EventFormPage({super.key, this.event});
 
