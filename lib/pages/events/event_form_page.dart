@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../models/event_model.dart';
 import '../../models/place_model.dart';
+import '../../services/auth_service.dart';
 import '../../services/event_service.dart';
 import '../../services/place_service.dart';
 import '../../services/storage_service.dart';
@@ -28,6 +29,7 @@ class _EventFormPageState extends State<EventFormPage> {
   final _eventService = EventService();
   final _placeService = PlaceService();
   final _storageService = StorageService();
+  final _authService = AuthService(); 
 
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
@@ -148,6 +150,11 @@ class _EventFormPageState extends State<EventFormPage> {
         }
       }
 
+      final currentUid = _authService.currentUser?.uid ?? '';
+      final authorId = widget.isEditing
+          ? (widget.event!.authorId)
+          : currentUid;
+
       final event = EventModel(
         id: widget.event?.id ?? '',
         title: _titleController.text.trim(),
@@ -155,6 +162,7 @@ class _EventFormPageState extends State<EventFormPage> {
         placeId: _selectedPlace!.id,
         description: _descriptionController.text.trim(),
         imageUrl: imageUrl,
+        authorId: authorId, 
       );
 
       if (widget.isEditing) {
