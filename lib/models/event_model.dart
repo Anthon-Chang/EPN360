@@ -7,6 +7,7 @@ class EventModel {
   final String placeId;
   final String description;
   final String imageUrl;
+  final String authorId; 
 
   EventModel({
     required this.id,
@@ -14,10 +15,10 @@ class EventModel {
     required this.date,
     required this.placeId,
     required this.description,
+    required this.authorId, 
     this.imageUrl = '',
   });
 
-  // Convert to Map for writing to Firestore
   Map<String, dynamic> toMap() {
     return {
       'title': title,
@@ -25,10 +26,10 @@ class EventModel {
       'placeId': placeId,
       'description': description,
       'imageUrl': imageUrl,
+      'authorId': authorId, 
     };
   }
 
-  // Create from Map (usually reading from Firestore)
   factory EventModel.fromMap(Map<String, dynamic> map, String documentId) {
     DateTime parsedDate;
     if (map['date'] is Timestamp) {
@@ -46,6 +47,7 @@ class EventModel {
       placeId: map['placeId'] ?? '',
       description: map['description'] ?? '',
       imageUrl: map['imageUrl'] ?? '',
+      authorId: map['authorId'] ?? '', 
     );
   }
 
@@ -55,6 +57,7 @@ class EventModel {
     String? placeId,
     String? description,
     String? imageUrl,
+    String? authorId,
   }) {
     return EventModel(
       id: id,
@@ -63,6 +66,7 @@ class EventModel {
       placeId: placeId ?? this.placeId,
       description: description ?? this.description,
       imageUrl: imageUrl ?? this.imageUrl,
+      authorId: authorId ?? this.authorId, 
     );
   }
 }
