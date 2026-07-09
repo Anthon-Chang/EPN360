@@ -2,6 +2,15 @@
     
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"/>
+
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+>>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 
     <application
         android:label="epn360"

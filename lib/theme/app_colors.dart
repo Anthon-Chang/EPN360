@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
+<<<<<<< HEAD
   static const Color epnBlue = Color(0xFF0B1849);
+=======
+  static const Color epnBlue = Color(0xFF1A4B7C);
+>>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
   static const Color epnRed = Color(0xFFA62B2B);
   static const Color epnGold = Color(0xFFC5A059);
   static const Color epnBgLight = Color(0xFFF8F9FA);

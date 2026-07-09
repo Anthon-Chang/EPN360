@@ -46,7 +46,10 @@ dependencies:
   geolocator: ^13.0.1
   html: ^0.15.5
   url_launcher: ^6.3.0
+<<<<<<< HEAD
   share_plus: ^11.0.0
+=======
+>>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 
 dev_dependencies:
   flutter_test:

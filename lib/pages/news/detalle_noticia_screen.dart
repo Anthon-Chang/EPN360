@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/news_model.dart';
@@ -6,11 +7,17 @@ import '../../theme/app_colors.dart';
 
 /// Pantalla de lectura de una noticia: imagen a pantalla completa,
 /// cuerpo del artículo y opción de compartir el enlace original.
+=======
+import 'package:url_launcher/url_launcher.dart';
+import '../../models/news_model.dart';
+
+>>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 class DetalleNoticiaScreen extends StatelessWidget {
   final NewsModel noticia;
 
   const DetalleNoticiaScreen({super.key, required this.noticia});
 
+<<<<<<< HEAD
   Future<void> _openOriginal(BuildContext context) async {
     final url = noticia.enlace.trim();
 
@@ -85,12 +92,34 @@ class DetalleNoticiaScreen extends StatelessWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(20),
+=======
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(noticia.title),
+        backgroundColor: const Color(0xFF1A4B7C),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              noticia.imageUrl,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(16),
+>>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     noticia.title,
                     style: const TextStyle(
+<<<<<<< HEAD
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -147,3 +176,63 @@ class DetalleNoticiaScreen extends StatelessWidget {
     return minutes < 1 ? 1 : minutes;
   }
 }
+=======
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  Text(noticia.description),
+
+                  const SizedBox(height: 20),
+                  
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1A4B7C),
+                    ),
+                    onPressed: () async {
+                      final url = noticia.enlace.trim();
+
+                      if (url.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("URL vacía")),
+                        );
+                        return;
+                      }
+
+                      final uri = Uri.parse(url);
+
+                      try {
+                        final canLaunch = await canLaunchUrl(uri);
+
+                        if (!canLaunch) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("No se puede abrir la URL")),
+                          );
+                          return;
+                        }
+
+                        await launchUrl(
+                          uri,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Error: $e")),
+                        );
+                      }
+                    },
+                    child: const Text("Abrir noticia original"),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+>>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
