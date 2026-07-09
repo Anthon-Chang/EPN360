@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/event_model.dart';
 
 class EventService {
@@ -28,11 +29,20 @@ class EventService {
 
   /// Actualiza un evento existente.
   Future<void> updateEvent(EventModel event) async {
+    _assertIsOwner(event.authorId);
     await _collection.doc(event.id).update(event.toMap());
   }
 
   /// Elimina un evento por id.
-  Future<void> deleteEvent(String id) async {
+  Future<void> deleteEvent(String id, String authorId) async {
+    _assertIsOwner(authorId);
     await _collection.doc(id).delete();
+  }
+
+  void _assertIsOwner(String authorId) {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null || uid != authorId) {
+      throw Exception('No tienes permiso para modificar este evento.');
+    }
   }
 }
