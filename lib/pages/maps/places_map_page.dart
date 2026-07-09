@@ -291,7 +291,7 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
     );
   }
 
-  Marker _buildPlaceMarker(
+Marker _buildPlaceMarker(
     PlaceModel place,
     List<EventModel> eventsHere, {
     bool isFocused = false,
@@ -299,6 +299,11 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
     final hasEvents = eventsHere.isNotEmpty;
     final size = isFocused ? 54.0 : 44.0;
     final baseColor = hasEvents ? AppColors.epnGold : AppColors.epnRed;
+
+    final String? thumbnailUrl =
+        hasEvents && eventsHere.first.imageUrl.isNotEmpty
+            ? eventsHere.first.imageUrl
+            : null;
 
     return Marker(
       point: LatLng(place.lat, place.lng),
@@ -320,18 +325,57 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
           clipBehavior: Clip.none,
           children: [
             Container(
-              decoration: isFocused
-                  ? BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.epnBlue, width: 3),
-                    )
-                  : null,
-              padding: isFocused ? const EdgeInsets.all(3) : EdgeInsets.zero,
-              child: Icon(
-                hasEvents ? Icons.event : Icons.location_on,
-                color: baseColor,
-                size: isFocused ? 40 : 36,
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                border: Border.all(
+                  color: isFocused ? AppColors.epnBlue : baseColor,
+                  width: isFocused ? 3 : 2,
+                ),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 3,
+                    spreadRadius: 0.5,
+                  ),
+                ],
               ),
+              child: thumbnailUrl != null
+                  ? ClipOval(
+                      child: Image.network(
+                        thumbnailUrl,
+                        fit: BoxFit.cover,
+                        width: size,
+                        height: size,
+                        loadingBuilder: (context, child, progress) {
+                          if (progress == null) return child;
+                          return Center(
+                            child: SizedBox(
+                              width: size * 0.4,
+                              height: size * 0.4,
+                              child: const CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          // Si la imagen no carga, cae al ícono normal.
+                          return Icon(
+                            Icons.event,
+                            color: baseColor,
+                            size: isFocused ? 28 : 24,
+                          );
+                        },
+                      ),
+                    )
+                  : Icon(
+                      hasEvents ? Icons.event : Icons.location_on,
+                      color: baseColor,
+                      size: isFocused ? 28 : 24,
+                    ),
             ),
             if (eventsHere.length > 1)
               Positioned(
@@ -489,8 +533,10 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
                         ),
                         child: ListTile(
                           onTap: () {
-                            Navigator.of(context).pop();
-                            _showEventDetails(context, event);
+                            Navigator.of(ctx).pop();
+                            if (context.mounted) {
+                              _showEventDetails(context, event);
+                            }
                           },
                           leading: const Icon(Icons.event,
                               color: AppColors.epnGold),
