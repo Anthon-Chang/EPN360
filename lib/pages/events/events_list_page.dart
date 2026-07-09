@@ -47,6 +47,7 @@ class EventsListPage extends StatelessWidget {
           }
 
           final events = snapshot.data ?? [];
+          final currentUid = _authService.currentUser?.uid;
 
           if (events.isEmpty) {
             return const Center(
@@ -67,9 +68,11 @@ class EventsListPage extends StatelessWidget {
             separatorBuilder: (_, _) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
               final event = events[index];
+              final isOwner = currentUid != null && currentUid == event.authorId;
               return _EventCard(
                 event: event,
-                onShowDetails: () => _showEventDetails(context, event),
+                isOwner: isOwner,
+                onShowDetails: () => _showEventDetails(context, event, isOwner),
                 onEdit: () => _openForm(context, event: event),
                 onDelete: () => _confirmDelete(context, event),
                 onShowOnMap: () => _openMap(context, event),
@@ -100,7 +103,7 @@ class EventsListPage extends StatelessWidget {
   }
 
   /// Muestra una ficha con la imagen en grande y la información del evento.
-  void _showEventDetails(BuildContext context, EventModel event) {
+  void _showEventDetails(BuildContext context, EventModel event, bool isOwner) { // NUEVO param
     final dateFormatted = DateFormat('dd/MM/yyyy – HH:mm').format(event.date);
 
     showModalBottomSheet(
@@ -166,17 +169,19 @@ class EventsListPage extends StatelessWidget {
                               label: const Text('Ver mapa'),
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                Navigator.of(ctx).pop();
-                                _openForm(context, event: event);
-                              },
-                              icon: const Icon(Icons.edit_outlined),
-                              label: const Text('Editar'),
+                          if (isOwner) ...[
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                  _openForm(context, event: event);
+                                },
+                                icon: const Icon(Icons.edit_outlined),
+                                label: const Text('Editar'),
+                              ),
                             ),
-                          ),
+                          ],
                         ],
                       ),
                     ],
@@ -211,7 +216,7 @@ class EventsListPage extends StatelessWidget {
     );
 
     if (confirmed == true) {
-      await _eventService.deleteEvent(event.id);
+      await _eventService.deleteEvent(event.id, event.authorId);
     }
   }
 }
@@ -267,6 +272,7 @@ class _EventDetailImage extends StatelessWidget {
 class _EventCard extends StatelessWidget {
   const _EventCard({
     required this.event,
+    required this.isOwner,
     required this.onShowDetails,
     required this.onEdit,
     required this.onDelete,
@@ -274,6 +280,7 @@ class _EventCard extends StatelessWidget {
   });
 
   final EventModel event;
+  final bool isOwner;
   final VoidCallback onShowDetails;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
@@ -360,8 +367,8 @@ class _EventCard extends StatelessWidget {
             if (value == 'edit') onEdit();
             if (value == 'delete') onDelete();
           },
-          itemBuilder: (context) => const [
-            PopupMenuItem(
+          itemBuilder: (context) => [
+            const PopupMenuItem(
               value: 'map',
               child: ListTile(
                 leading: Icon(Icons.map_outlined),
@@ -369,8 +376,10 @@ class _EventCard extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
               ),
             ),
-            PopupMenuItem(value: 'edit', child: Text('Editar')),
-            PopupMenuItem(value: 'delete', child: Text('Eliminar')),
+            if (isOwner) ...[ 
+              const PopupMenuItem(value: 'edit', child: Text('Editar')),
+              const PopupMenuItem(value: 'delete', child: Text('Eliminar')),
+            ],
           ],
         ),
       ),
