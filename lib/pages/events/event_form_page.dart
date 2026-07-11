@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -37,7 +37,7 @@ class _EventFormPageState extends State<EventFormPage> {
   DateTime? _selectedDate;
   PlaceModel? _selectedPlace;
   PlaceModel? _initialPlace;
-  File? _newImageFile;
+  Uint8List? _newImageBytes;
   String? _existingImageUrl;
 
   bool _isSaving = false;
@@ -115,9 +115,9 @@ class _EventFormPageState extends State<EventFormPage> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    final file = await ImageHelper.pickAndCompressImage(source: source);
-    if (file == null) return;
-    setState(() => _newImageFile = file);
+    final picked = await ImageHelper.pickAndCompressImage(source: source);
+    if (picked == null) return;
+    setState(() => _newImageBytes = picked.bytes);
   }
 
   Future<void> _handleSave() async {
@@ -140,11 +140,11 @@ class _EventFormPageState extends State<EventFormPage> {
     try {
       String imageUrl = _existingImageUrl ?? '';
 
-      if (_newImageFile != null) {
+      if (_newImageBytes != null) {
         final fileName =
             'events/${DateTime.now().millisecondsSinceEpoch}.jpg';
         final uploadedUrl =
-            await _storageService.uploadFile(_newImageFile!, fileName);
+            await _storageService.uploadFile(_newImageBytes!, fileName);
         if (uploadedUrl != null) {
           imageUrl = uploadedUrl;
         }
@@ -184,10 +184,10 @@ class _EventFormPageState extends State<EventFormPage> {
   }
 
   Widget _buildImagePreview() {
-    if (_newImageFile != null) {
+    if (_newImageBytes != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: Image.file(_newImageFile!, height: 160, fit: BoxFit.cover),
+        child: Image.memory(_newImageBytes!, height: 160, fit: BoxFit.cover),
       );
     }
     if (_existingImageUrl != null && _existingImageUrl!.isNotEmpty) {

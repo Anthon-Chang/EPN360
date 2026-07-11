@@ -1,58 +1,43 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart';
-import 'package:html/dom.dart';
 
 import '../models/news_model.dart';
 
+/// Consume la Cloud Function `getNoticias`, que hace el scraping del
+/// sitio de la EPN del lado del servidor. Así evitamos el bloqueo de
+/// CORS que ocurre al llamar directamente a www.epn.edu.ec desde
+/// Flutter Web, y mantenemos la lógica de scraping en un solo lugar.
+///
+/// IMPORTANTE: reemplaza `_projectId` solo si cambias de proyecto de
+/// Firebase. La región debe coincidir con la configurada en
+/// `functions/index.js` (por defecto: us-central1).
 class NewsService {
-  static const String baseUrl =
-      "https://www.epn.edu.ec/category/noticias/page/";
+  static const String _projectId = 'epn360-e218b';
+  static const String _region = 'us-central1';
+  static const String _functionUrl =
+      'https://$_region-$_projectId.cloudfunctions.net/getNoticias';
 
   Future<List<NewsModel>> obtenerNoticias() async {
-    List<NewsModel> noticias = [];
+    final response = await http.get(Uri.parse(_functionUrl));
 
-    for (int page = 1; page <= 10; page++) {
-      final response = await http.get(Uri.parse("$baseUrl$page/"));
-
-      if (response.statusCode != 200) break;
-
-      final document = parse(response.body);
-
-      final noticiasHtml =
-          document.getElementsByClassName("edubin-post-one-single-grid");
-
-      if (noticiasHtml.isEmpty) break;
-
-      for (var noticia in noticiasHtml) {
-        final title =
-            noticia.querySelector(".course__title-link")?.text.trim() ?? "";
-
-        final enlace =
-            noticia.querySelector(".course__title-link")?.attributes["href"] ?? "";
-
-        final description =
-            noticia.querySelector(".card-bottom p")?.text.trim() ?? "";
-
-        final img = noticia.querySelector("img");
-
-        final image =
-            img?.attributes["data-lazy-src"] ??
-            img?.attributes["data-src"] ??
-            img?.attributes["src"] ??
-            "";
-
-        noticias.add(
-          NewsModel(
-            title: title,
-            description: description,
-            imageUrl: image,
-            enlace: enlace,
-            createdAt: DateTime.now(),
-          ),
-        );
-      }
+    if (response.statusCode != 200) {
+      throw Exception(
+        'No se pudieron obtener las noticias (${response.statusCode})',
+      );
     }
 
-    return noticias;
+    final Map<String, dynamic> body = jsonDecode(response.body);
+    final List<dynamic> data = body['noticias'] ?? [];
+
+    return data.map((item) {
+      return NewsModel(
+        title: item['title'] ?? '',
+        description: item['description'] ?? '',
+        imageUrl: item['imageUrl'] ?? '',
+        enlace: item['enlace'] ?? '',
+        createdAt: DateTime.tryParse(item['createdAt'] ?? '') ??
+            DateTime.now(),
+      );
+    }).toList();
   }
 }

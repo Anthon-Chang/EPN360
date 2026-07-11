@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/news_model.dart';
 import '../pages/news/detalle_noticia_screen.dart';
-<<<<<<< HEAD
 import '../theme/app_colors.dart';
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 
 class NoticiaCard extends StatelessWidget {
   final NewsModel noticia;
@@ -67,11 +64,7 @@ class NoticiaCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-<<<<<<< HEAD
                       backgroundColor: AppColors.epnBlue,
-=======
-                      backgroundColor: const Color(0xFF1A4B7C),
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
                     ),
                     onPressed: () {
                       Navigator.push(

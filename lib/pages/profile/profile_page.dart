@@ -172,8 +172,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
     if (source == null) return;
 
-    final file = await ImageHelper.pickAndCompressImage(source: source);
-    if (file == null) return;
+    final picked = await ImageHelper.pickAndCompressImage(source: source);
+    if (picked == null) return;
     if (!context.mounted) return;
 
     showDialog(
@@ -183,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
 
     final url = await StorageService().uploadFile(
-      file,
+      picked.bytes,
       'users/${user.uid}/avatar_${DateTime.now().millisecondsSinceEpoch}.jpg',
     );
 

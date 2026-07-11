@@ -1,36 +1,35 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 
 class StorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  /// Uploads a file (e.g., a compressed image) to Firebase Storage.
+  /// Sube bytes de imagen a Firebase Storage. Usar bytes (en vez de
+  /// `dart:io File`) hace que esto funcione tanto en Flutter Web como
+  /// en Android/iOS/Desktop.
   ///
-  /// [file] is the local file to upload.
-  /// [path] is the destination path in the storage bucket (e.g. 'news/image_123.jpg').
+  /// [bytes] es el contenido del archivo a subir.
+  /// [path] es la ruta destino en el bucket (ej. 'news/image_123.jpg').
   ///
-  /// Returns the download URL string, or [null] if the upload fails.
-  Future<String?> uploadFile(File file, String path) async {
+  /// Devuelve la URL de descarga, o [null] si falla.
+  Future<String?> uploadFile(
+    Uint8List bytes,
+    String path, {
+    String contentType = 'image/jpeg',
+  }) async {
     try {
-      // Create a reference to the storage location
       final Reference ref = _storage.ref().child(path);
 
-      // Specify metadata (helpful for browser rendering and caching)
       final SettableMetadata metadata = SettableMetadata(
-        contentType: 'image/jpeg',
+        contentType: contentType,
         customMetadata: {
           'uploadedAt': DateTime.now().toIso8601String(),
         },
       );
 
-      // Start the upload task
-      final UploadTask uploadTask = ref.putFile(file, metadata);
-
-      // Wait for completion
+      final UploadTask uploadTask = ref.putData(bytes, metadata);
       final TaskSnapshot snapshot = await uploadTask;
-
-      // Get and return the download URL
       final String downloadUrl = await snapshot.ref.getDownloadURL();
       return downloadUrl;
     } catch (e) {
@@ -39,9 +38,7 @@ class StorageService {
     }
   }
 
-  /// Deletes a file from Firebase Storage given its path or full download URL.
-  ///
-  /// Returns [true] if successful, [false] otherwise.
+  /// Elimina un archivo de Firebase Storage dado su path o URL completa.
   Future<bool> deleteFile(String pathOrUrl) async {
     try {
       Reference ref;
@@ -58,4 +55,3 @@ class StorageService {
     }
   }
 }
-

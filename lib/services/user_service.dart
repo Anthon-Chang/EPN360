@@ -17,7 +17,6 @@ class UserService {
     return UserModel.fromMap(doc.data()!, doc.id);
   }
 
-<<<<<<< HEAD
   /// Escucha en tiempo real el perfil de un usuario.
   Stream<UserModel?> streamUserProfile(String uid) {
     return _collection.doc(uid).snapshots().map((doc) {
@@ -26,13 +25,10 @@ class UserService {
     });
   }
 
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
   /// Actualiza el perfil de un usuario existente.
   Future<void> updateUserProfile(UserModel user) async {
     await _collection.doc(user.uid).update(user.toMap());
   }
-<<<<<<< HEAD
 
   /// Actualiza solo algunos campos del perfil.
   Future<void> updateFields(String uid, Map<String, dynamic> data) async {
@@ -52,6 +48,4 @@ class UserService {
       'favoriteEventIds': FieldValue.arrayRemove([eventId]),
     });
   }
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 }

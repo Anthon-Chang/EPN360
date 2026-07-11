@@ -9,10 +9,7 @@ import '../../services/event_service.dart';
 import '../../services/location_service.dart';
 import '../../services/place_service.dart';
 import '../../theme/app_colors.dart';
-<<<<<<< HEAD
 import '../../widgets/app_drawer.dart';
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 
 /// Mapa del campus con los lugares registrados y los eventos asociados
 /// a cada uno.
@@ -57,7 +54,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
   String? _locationError;
   bool _hasAppliedFocus = false;
 
-<<<<<<< HEAD
   // Filtro de categoría activo (chips superiores).
   String _selectedFilter = 'Todos';
   static const List<String> _filters = [
@@ -68,8 +64,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
     'Zonas Verdes',
   ];
 
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
   // Punto elegido manualmente por el usuario (solo modo selección).
   LatLng? _selectedPoint;
 
@@ -105,7 +99,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
     }
   }
 
-<<<<<<< HEAD
   bool _matchesFilter(PlaceModel place) {
     if (_selectedFilter == 'Todos') return true;
     final type = place.type.toLowerCase();
@@ -160,8 +153,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
     );
   }
 
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
   String _formatDistance(double meters) {
     if (meters < 1000) return '${meters.round()} m';
     return '${(meters / 1000).toStringAsFixed(1)} km';
@@ -190,12 +181,9 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
       drawer: widget.selectionMode
           ? null
           : const AppDrawer(currentRoute: AppDrawer.map),
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
       appBar: AppBar(
         title: Text(widget.selectionMode
             ? 'Toca el mapa para elegir el lugar'
@@ -214,10 +202,7 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
           }
 
           final places = placesSnapshot.data ?? [];
-<<<<<<< HEAD
           final visiblePlaces = places.where(_matchesFilter).toList();
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 
           return StreamBuilder<List<EventModel>>(
             stream: _eventService.streamEvents(),
@@ -270,11 +255,7 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
               }
 
               final markers = <Marker>[
-<<<<<<< HEAD
                 for (final place in visiblePlaces)
-=======
-                for (final place in places)
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
                   _buildPlaceMarker(
                     place,
                     eventsByPlace[place.id] ?? [],
@@ -311,7 +292,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
                       MarkerLayer(markers: markers),
                     ],
                   ),
-<<<<<<< HEAD
                   if (!widget.selectionMode)
                     Positioned(
                       left: 0,
@@ -319,8 +299,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
                       top: 12,
                       child: _buildFilterChips(),
                     ),
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
                   if (widget.selectionMode)
                     Positioned(
                       left: 12,

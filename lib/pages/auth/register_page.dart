@@ -23,10 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _authService = AuthService();
   final _userService = UserService();
 
-<<<<<<< HEAD
   String _role = 'Estudiante';
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
   bool _obscurePassword = true;
   bool _isLoading = false;
 
@@ -80,10 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
         name: _nameController.text.trim(),
         email: _emailController.text.trim(),
         career: _careerController.text.trim(),
-<<<<<<< HEAD
         role: _role,
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
       );
       await _userService.createUserProfile(profile);
     } catch (e) {
@@ -139,7 +133,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 28),
 
-<<<<<<< HEAD
                 // Rol: Estudiante o Visitante
                 Align(
                   alignment: Alignment.centerLeft,
@@ -177,8 +170,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 16),
 
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
                 // Nombre: solo letras, 3-50 caracteres
                 TextFormField(
                   controller: _nameController,
@@ -228,35 +219,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 16),
 
-<<<<<<< HEAD
                 // Carrera: solo letras, 3-60 caracteres (opcional para visitantes)
-=======
-                // Carrera: solo letras, 3-60 caracteres
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
                 TextFormField(
                   controller: _careerController,
                   maxLength: 60,
                   textCapitalization: TextCapitalization.words,
                   inputFormatters: [_lettersOnlyFormatter],
-<<<<<<< HEAD
                   decoration: InputDecoration(
                     labelText: _role == 'Estudiante'
                         ? 'Carrera'
                         : 'Motivo de la visita (opcional)',
                     prefixIcon: const Icon(Icons.school_outlined),
-=======
-                  decoration: const InputDecoration(
-                    labelText: 'Carrera',
-                    prefixIcon: Icon(Icons.school_outlined),
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
                     counterText: '',
                   ),
                   validator: (value) {
                     final v = value?.trim() ?? '';
-<<<<<<< HEAD
                     if (_role == 'Visitante') return null;
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
                     if (v.isEmpty) return 'Ingresa tu carrera';
                     if (v.length < 3) {
                       return 'Ingresa una carrera válida';

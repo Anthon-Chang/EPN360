@@ -1,22 +1,29 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+
+/// Imagen seleccionada por el usuario, ya leída en memoria como bytes.
+/// Usar bytes (en vez de `dart:io File`) permite que el mismo código
+/// funcione tanto en Flutter Web como en Android/iOS/Desktop, ya que
+/// `dart:io.File` no está soportado en la web.
+class PickedImage {
+  const PickedImage({required this.bytes, required this.name});
+
+  final Uint8List bytes;
+  final String name;
+}
 
 class ImageHelper {
   static final ImagePicker _picker = ImagePicker();
 
-  /// Picks an image from the specified [source] (camera or gallery)
-  /// and automatically compresses it using native platform capabilities
-  /// to save storage space and bandwidth.
+  /// Abre la cámara o galería según [source], comprime la imagen usando
+  /// las capacidades nativas de `image_picker` y devuelve sus bytes.
   ///
-  /// [quality] is a value from 0 to 100 representing the image compression quality.
-  /// [maxWidth] and [maxHeight] restrict the maximum dimensions of the image.
-  ///
-  /// Returns a [File] pointing to the compressed image, or [null] if cancelled/failed.
-  static Future<File?> pickAndCompressImage({
+  /// Funciona igual en Web, Android, iOS y Desktop.
+  static Future<PickedImage?> pickAndCompressImage({
     required ImageSource source,
-    int quality = 70, // 70 is the sweet spot between size reduction and visual quality
-    double maxWidth = 1024, // 1024px is standard for modern mobile app displays
+    int quality = 70,
+    double maxWidth = 1024,
     double maxHeight = 1024,
   }) async {
     try {
@@ -27,14 +34,13 @@ class ImageHelper {
         maxHeight: maxHeight,
       );
 
-      if (pickedFile != null) {
-        return File(pickedFile.path);
-      }
-      return null;
+      if (pickedFile == null) return null;
+
+      final bytes = await pickedFile.readAsBytes();
+      return PickedImage(bytes: bytes, name: pickedFile.name);
     } catch (e) {
       debugPrint('Error picking/compressing image: $e');
       return null;
     }
   }
 }
-

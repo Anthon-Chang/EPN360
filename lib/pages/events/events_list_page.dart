@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/event_model.dart';
-<<<<<<< HEAD
 import '../../models/user_model.dart';
 import '../../services/auth_service.dart';
 import '../../services/event_service.dart';
 import '../../services/user_service.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/app_drawer.dart';
-=======
-import '../../services/auth_service.dart';
-import '../../services/event_service.dart';
-import '../../theme/app_colors.dart';
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 import 'event_form_page.dart';
 import '../maps/places_map_page.dart';
 
@@ -25,10 +19,7 @@ class EventsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
       drawer: const AppDrawer(currentRoute: AppDrawer.events),
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
       appBar: AppBar(
         title: const Text('Eventos'),
         actions: [
@@ -39,14 +30,6 @@ class EventsListPage extends StatelessWidget {
               MaterialPageRoute(builder: (_) => PlacesMapPage()),
             ),
           ),
-<<<<<<< HEAD
-=======
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Cerrar sesión',
-            onPressed: () => _authService.signOut(),
-          ),
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
         ],
       ),
       body: StreamBuilder<List<EventModel>>(
@@ -121,10 +104,7 @@ class EventsListPage extends StatelessWidget {
   /// Muestra una ficha con la imagen en grande y la información del evento.
   void _showEventDetails(BuildContext context, EventModel event, bool isOwner) { // NUEVO param
     final dateFormatted = DateFormat('dd/MM/yyyy – HH:mm').format(event.date);
-<<<<<<< HEAD
     final currentUid = _authService.currentUser?.uid;
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 
     showModalBottomSheet(
       context: context,
@@ -176,7 +156,6 @@ class EventsListPage extends StatelessWidget {
                         event.description,
                         style: const TextStyle(fontSize: 15, height: 2.4),
                       ),
-<<<<<<< HEAD
                       const SizedBox(height: 16),
                       if (currentUid != null)
                         StreamBuilder<UserModel?>(
@@ -218,8 +197,6 @@ class EventsListPage extends StatelessWidget {
                             );
                           },
                         ),
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
                       const SizedBox(height: 24),
                       Row(
                         children: [

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/auth_service.dart';
 import '../../theme/app_colors.dart';
-<<<<<<< HEAD
 import 'forgot_password_page.dart';
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
 import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -177,7 +174,6 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                     child: const Text('¿No tienes cuenta? Regístrate'),
                   ),
-<<<<<<< HEAD
                   TextButton(
                     onPressed: _isLoading
                         ? null
@@ -188,8 +184,6 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                     child: const Text('¿Olvidaste tu contraseña?'),
                   ),
-=======
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
                 ],
               ),
             ),

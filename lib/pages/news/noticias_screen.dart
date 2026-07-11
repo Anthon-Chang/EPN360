@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/news_model.dart';
 import '../../services/new_service.dart';
-<<<<<<< HEAD
 import '../../theme/app_colors.dart';
 import '../../widgets/app_drawer.dart';
 import '../../widgets/noticia_card.dart';
@@ -20,63 +19,17 @@ class NoticiasScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Noticias EPN')),
       body: FutureBuilder<List<NewsModel>>(
         future: service.obtenerNoticias(),
-=======
-import '../../widgets/noticia_card.dart';
-
-class NoticiasScreen extends StatefulWidget {
-  const NoticiasScreen({super.key});
-
-  @override
-  State<NoticiasScreen> createState() => _NoticiasScreenState();
-}
-
-class _NoticiasScreenState extends State<NoticiasScreen> {
-  late Future<List<NewsModel>> _futureNoticias;
-
-  @override
-  void initState() {
-    super.initState();
-    _futureNoticias = NewsService().obtenerNoticias();
-  }
-
-  Future<void> _recargarNoticias() async {
-    setState(() {
-      _futureNoticias = NewsService().obtenerNoticias();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Noticias EPN"),
-        backgroundColor: const Color(0xFF1A4B7C),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _recargarNoticias,
-          ),
-        ],
-      ),
-      body: FutureBuilder<List<NewsModel>>(
-        future: _futureNoticias,
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
-<<<<<<< HEAD
             return const Center(child: Text('Error al cargar noticias'));
-=======
-            return const Center(child: Text("Error al cargar noticias"));
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
           }
 
           final noticias = snapshot.data ?? [];
 
-<<<<<<< HEAD
           if (noticias.isEmpty) {
             return const Center(child: Text('No hay noticias disponibles.'));
           }
@@ -113,19 +66,11 @@ class _NoticiasScreenState extends State<NoticiasScreen> {
               ),
               ...resto.map((noticia) => NoticiaCard(noticia: noticia)),
             ],
-=======
-          return ListView.builder(
-            itemCount: noticias.length,
-            itemBuilder: (context, index) {
-              return NoticiaCard(noticia: noticias[index]);
-            },
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
           );
         },
       ),
     );
   }
-<<<<<<< HEAD
 }
 
 /// Tarjeta destacada (hero) con la noticia más reciente del feed.
@@ -198,6 +143,3 @@ class _HeroNoticia extends StatelessWidget {
     );
   }
 }
-=======
-}
->>>>>>> 84a46a42d8be785d3557f68e63d439025265fb2a
