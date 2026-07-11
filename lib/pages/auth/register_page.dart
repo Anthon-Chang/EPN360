@@ -96,6 +96,18 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (!mounted) return;
     setState(() => _isLoading = false);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('¡Cuenta creada con éxito! Inicia sesión para continuar.'),
+        backgroundColor: AppColors.epnBlue,
+      ),
+    );
+
+    // Pequeña pausa para que el mensaje sea visible antes de que el
+    // AuthGate detecte el cierre de sesión y regrese a Login.
+    await Future.delayed(const Duration(milliseconds: 900));
+    await _authService.signOut();
   }
 
   @override
