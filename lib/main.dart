@@ -5,6 +5,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 import 'pages/home/home_page.dart';
 import 'pages/auth/login_page.dart';
+import 'pages/splash/splash_screen.dart';
 import 'services/auth_service.dart';
 import 'theme/app_colors.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'EPN 360',
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
-      home: const AuthGate(),
+      home: const SplashScreen(),
     );
   }
 }

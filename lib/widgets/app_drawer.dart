@@ -9,6 +9,7 @@ import '../pages/events/events_list_page.dart';
 import '../pages/news/noticias_screen.dart';
 import '../pages/directory/directory_page.dart';
 import '../pages/profile/profile_page.dart';
+import '../pages/auth/login_page.dart';
 
 /// Menú lateral (hamburguesa) con los accesos principales de la app:
 /// Mapa Campus, Eventos, Noticias y Directorio, además de Home y Perfil.
@@ -80,6 +81,11 @@ class AppDrawer extends StatelessWidget {
     );
     if (confirmed == true) {
       await AuthService().signOut();
+      if (!context.mounted) return;
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const LoginPage()),
+        (route) => false,
+      );
     }
   }
 
