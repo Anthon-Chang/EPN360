@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
+  late final Stream<User?> authStateChanges = _auth.authStateChanges();
 
   /// Usuario actualmente autenticado, si existe.
   User? get currentUser => _auth.currentUser;
