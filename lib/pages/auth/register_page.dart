@@ -25,6 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String _role = 'Estudiante';
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true; 
   bool _isLoading = false;
 
   // Solo letras (con acentos y ñ) y espacios. Nada de números ni símbolos.
@@ -294,15 +295,27 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 TextFormField(
                   controller: _confirmPasswordController,
-                  obscureText: _obscurePassword,
+                  obscureText: _obscureConfirmPassword,
                   maxLength: 20,
                   inputFormatters: [
                     FilteringTextInputFormatter.deny(RegExp(r'\s')),
                   ],
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Confirmar contraseña',
-                    prefixIcon: Icon(Icons.lock_outline),
+                    prefixIcon: const Icon(Icons.lock_outline),
                     counterText: '',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureConfirmPassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureConfirmPassword = !_obscureConfirmPassword;
+                        });
+                      },
+                    ),
                   ),
                   validator: (value) {
                     if (value != _passwordController.text) {
