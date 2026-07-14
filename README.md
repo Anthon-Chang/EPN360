@@ -1,17 +1,166 @@
-# epn360
+# EPN 360
 
-A new Flutter project.
+Aplicación móvil y web desarrollada en Flutter para la comunidad de la Escuela Politécnica Nacional (EPN), que centraliza en un solo lugar la información de eventos, noticias institucionales y ubicación del campus.
 
-## Getting Started
+## Objetivo de la aplicación
 
-This project is a starting point for a Flutter application.
+EPN 360 busca facilitar la vida universitaria dentro del campus de la Escuela Politécnica Nacional, ofreciendo a estudiantes, docentes y personal administrativo una herramienta única para:
 
-A few resources to get you started if this is your first Flutter project:
+- Enterarse de los eventos que se organizan dentro de la institución y su ubicación exacta.
+- Mantenerse informados con las noticias oficiales publicadas por la EPN.
+- Ubicarse dentro del campus mediante un mapa interactivo con rutas peatonales hacia edificios, eventos y puntos de interés (cafeterías, bibliotecas, parqueaderos, zonas verdes, etc.).
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Principales funcionalidades
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Gestión de eventos
+- Creación, edición y listado de eventos institucionales.
+- Asignación de ubicación a cada evento mediante selección directa en el mapa.
+- Visualización de eventos agrupados por lugar, con imagen, fecha y descripción.
+
+### Noticias
+- Obtención automática de noticias desde el sitio web oficial de la EPN.
+- Listado y vista de detalle de cada noticia.
+
+### Mapa del campus
+- Mapa interactivo del campus basado en OpenStreetMap.
+- Ubicación en tiempo real del usuario dentro del campus.
+- Cálculo y trazado de rutas peatonales hacia eventos y lugares, con seguimiento en vivo de la posición del usuario y aviso de llegada.
+- Filtros por categoría (bloques/aulas, parqueaderos, cafeterías, bibliotecas, teatro/recreativo, zonas verdes).
+- Registro de nuevos puntos de interés directamente desde el mapa.
+
+### Autenticación y perfil
+- Registro e inicio de sesión con correo y contraseña.
+- Recuperación de contraseña.
+- Gestión del perfil del usuario.
+
+### Directorio
+- Directorio institucional de contactos y dependencias.
+
+## Consumo de APIs
+
+La aplicación consume las siguientes APIs y servicios externos:
+
+| Servicio | Uso dentro de la aplicación |
+|---|---|
+| OpenStreetMap (tiles) | Renderizado del mapa base del campus. |
+| Nominatim (OpenStreetMap) | Geocodificación inversa: obtener la dirección legible a partir de coordenadas. |
+| OSRM (OpenStreetMap.de, perfil peatonal) | Cálculo de rutas a pie entre la ubicación del usuario y un evento o lugar. |
+| Sitio web de la EPN (`epn.edu.ec`) | Obtención de noticias institucionales mediante lectura del contenido público del sitio. En la versión web se utiliza un proxy intermedio para evitar restricciones del navegador (CORS). |
+| Geolocalización del dispositivo | Obtención de la posición actual del usuario y seguimiento en tiempo real durante una ruta. |
+
+## Uso de Firebase
+
+El backend de la aplicación está construido sobre Firebase. Los servicios utilizados son:
+
+- **Firebase Authentication**: registro, inicio de sesión, cierre de sesión y recuperación de contraseña de los usuarios.
+- **Cloud Firestore**: base de datos en tiempo real utilizada para almacenar eventos, lugares/puntos de interés y perfiles de usuario.
+- **Firebase Storage**: almacenamiento de imágenes asociadas a eventos y otros recursos multimedia de la aplicación.
+
+No se utiliza Supabase en este proyecto.
+
+## Estructura organizada del proyecto
+
+```
+lib/
+├── main.dart                  Punto de entrada de la aplicación e inicialización de Firebase
+├── app.dart                   Configuración general de la app
+├── firebase_options.dart      Configuración de Firebase generada por FlutterFire
+│
+├── models/                    Modelos de datos de la aplicación
+│   ├── event_model.dart
+│   ├── news_model.dart
+│   ├── place_model.dart
+│   └── user_model.dart
+│
+├── pages/                     Pantallas de la aplicación, organizadas por módulo
+│   ├── auth/                  Inicio de sesión, registro y recuperación de contraseña
+│   ├── directory/             Directorio institucional
+│   ├── events/                Listado y formulario de eventos
+│   ├── home/                  Pantalla principal
+│   ├── maps/                  Mapa del campus y rutas
+│   ├── news/                  Listado y detalle de noticias
+│   └── profile/                Perfil del usuario
+│
+├── services/                  Capa de acceso a datos y APIs externas
+│   ├── auth_service.dart          Autenticación (Firebase Auth)
+│   ├── event_service.dart         CRUD de eventos (Firestore)
+│   ├── geocoding_service.dart     Geocodificación inversa (Nominatim)
+│   ├── location_service.dart      Ubicación del dispositivo
+│   ├── new_service.dart           Obtención de noticias (sitio web EPN)
+│   ├── place_service.dart         CRUD de lugares/puntos de interés (Firestore)
+│   ├── route_service.dart         Cálculo de rutas peatonales (OSRM)
+│   ├── storage_service.dart       Subida de archivos (Firebase Storage)
+│   └── user_service.dart          Perfiles de usuario (Firestore)
+│
+├── theme/                     Estilos y colores institucionales
+├── utils/                     Utilidades generales (manejo de imágenes, etc.)
+└── widgets/                   Componentes de interfaz reutilizables
+```
+
+## Instrucciones para ejecutar la aplicación
+
+### Requisitos previos
+
+- Flutter SDK instalado (canal estable).
+- Una cuenta y un proyecto de Firebase configurados para la aplicación.
+- Editor de código (Visual Studio Code o Android Studio recomendado).
+
+### Pasos
+
+1. Clonar el repositorio del proyecto.
+
+   ```
+   git clone <url-del-repositorio>
+   cd <carpeta-del-proyecto>
+   ```
+
+2. Instalar las dependencias del proyecto.
+
+   ```
+   flutter pub get
+   ```
+
+3. Configurar Firebase.
+
+   El archivo `lib/firebase_options.dart` debe corresponder al proyecto de Firebase del equipo. Si es necesario regenerarlo, ejecutar:
+
+   ```
+   flutterfire configure
+   ```
+
+4. Verificar que los siguientes servicios estén habilitados en la consola de Firebase:
+
+   - Authentication (correo y contraseña)
+   - Cloud Firestore
+   - Storage
+
+5. Ejecutar la aplicación.
+
+   Para ejecutar en un navegador (Chrome):
+
+   ```
+   flutter run -d chrome
+   ```
+
+   Para ejecutar en un emulador o dispositivo Android/iOS conectado:
+
+   ```
+   flutter run
+   ```
+
+6. Compilar para producción (opcional).
+
+   ```
+   flutter build web
+   flutter build apk
+   ```
+
+## Integrantes del equipo y roles asignados
+
+| Integrante | Rol asignado |
+|---|---|
+| Ayol Guanoluisa Nayely Del Rocio | Módulo de Eventos |
+| Chang Alvarez Anthon Andre | Módulo de Mapa |
+| Galeas Tingo Emily Alejandra | Módulo de Noticias |
+| Naula Charco Jhosselin Britani | Frontend |
+| Torres Mora Joel Eduardo | Entorno de desarrollo, conexiones y base de datos |
