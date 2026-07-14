@@ -52,7 +52,7 @@ class PlaceService {
       lat: lat,
       lng: lng,
       description: address ?? '',
-      googlePlaceId: '', 
+      googlePlaceId: '',
       address: address ?? '',
     );
 
@@ -67,5 +67,28 @@ class PlaceService {
       googlePlaceId: '',
       address: newPlace.address,
     );
+  }
+
+  /// Crea un lugar/punto de interés independiente (edificio, cafetería,
+  /// biblioteca, teatro, parqueadero, zona verde, etc.), sin asociarlo a
+  /// ningún evento. Se usa desde "Agregar punto de interés" en el mapa.
+  Future<void> createPlace({
+    required String name,
+    required String type,
+    required double lat,
+    required double lng,
+    String description = '',
+  }) async {
+    final place = PlaceModel(
+      id: '',
+      name: name,
+      type: type,
+      lat: lat,
+      lng: lng,
+      description: description,
+      googlePlaceId: '',
+      address: '',
+    );
+    await _collection.add(place.toMap());
   }
 }

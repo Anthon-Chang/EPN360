@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
-import 'package:html/dom.dart';
 
 import '../models/news_model.dart';
 

@@ -42,4 +42,19 @@ class LocationService {
 
     return LocationResult(lat: position.latitude, lng: position.longitude);
   }
+
+  /// Emite la ubicación del usuario en tiempo real. Solo se dispara un
+  /// nuevo evento cuando el usuario se movió al menos
+  /// [distanceFilterMeters], para no saturar de actualizaciones.
+  Stream<LocationResult> watchLocation({int distanceFilterMeters = 10}) {
+    return Geolocator.getPositionStream(
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: distanceFilterMeters,
+      ),
+    ).map(
+      (position) =>
+          LocationResult(lat: position.latitude, lng: position.longitude),
+    );
+  }
 }
