@@ -84,6 +84,7 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
     'Bibliotecas',
     'Teatro/Recreativo',
     'Zonas Verdes',
+    'Solo eventos'
   ];
 
   // Punto elegido manualmente por el usuario (solo modo selección).
@@ -156,6 +157,7 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
                     decoration: const InputDecoration(labelText: 'Categoría'),
                     items: _filters
                         .skip(1) // se salta "Todos"
+                        .where((f) => f != 'Solo eventos')
                         .map((f) => DropdownMenuItem(value: f, child: Text(f)))
                         .toList(),
                     onChanged: (value) {
@@ -346,8 +348,9 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
     return '${hours}h ${mins}min';
   }
 
-  bool _matchesFilter(PlaceModel place) {
+  bool _matchesFilter(PlaceModel place, bool hasEvents) {
     if (_selectedFilter == 'Todos') return true;
+    if (_selectedFilter == 'Solo eventos') return hasEvents;
     final type = place.type.toLowerCase();
     switch (_selectedFilter) {
       case 'Bloques/Aulas':
@@ -487,7 +490,6 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
           }
 
           final places = placesSnapshot.data ?? [];
-          final visiblePlaces = places.where(_matchesFilter).toList();
 
           return StreamBuilder<List<EventModel>>(
             stream: _eventService.streamEvents(),
@@ -499,6 +501,11 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
               for (final event in events) {
                 eventsByPlace.putIfAbsent(event.placeId, () => []).add(event);
               }
+
+              final visiblePlaces = places
+                  .where((p) =>
+                      _matchesFilter(p, eventsByPlace[p.id]?.isNotEmpty ?? false))
+                  .toList();
 
               String? focusPlaceId = widget.focusPlaceId;
               if (focusPlaceId == null && widget.focusEventId != null) {
