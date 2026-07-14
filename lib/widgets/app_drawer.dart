@@ -60,7 +60,6 @@ class AppDrawer extends StatelessWidget {
   }
 
   Future<void> _confirmLogout(BuildContext context) async {
-    Navigator.of(context).pop();
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -80,6 +79,8 @@ class AppDrawer extends StatelessWidget {
       ),
     );
     if (confirmed == true) {
+      if (!context.mounted) return;
+      Navigator.of(context).pop(); // cierra el drawer
       await AuthService().signOut();
       if (!context.mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
