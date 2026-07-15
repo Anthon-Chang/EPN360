@@ -105,10 +105,14 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    // Pequeña pausa para que el mensaje sea visible antes de que el
-    // AuthGate detecte el cierre de sesión y regrese a Login.
+    // Pequeña pausa para que el mensaje sea visible antes de volver al
+    // login.
     await Future.delayed(const Duration(milliseconds: 900));
     await _authService.signOut();
+    if (!mounted) return;
+    // El AuthGate (debajo de esta pantalla, que fue empujada con push())
+    // ya refleja el cierre de sesión; con pop() volvemos a mostrarlo.
+    Navigator.of(context).pop();
   }
 
   @override

@@ -9,7 +9,7 @@ import '../pages/events/events_list_page.dart';
 import '../pages/news/noticias_screen.dart';
 import '../pages/directory/directory_page.dart';
 import '../pages/profile/profile_page.dart';
-import '../pages/auth/login_page.dart';
+import '../main.dart';
 
 /// Menú lateral (hamburguesa) con los accesos principales de la app:
 /// Mapa Campus, Eventos, Noticias y Directorio, además de Home y Perfil.
@@ -60,6 +60,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   Future<void> _confirmLogout(BuildContext context) async {
+    Navigator.of(context).pop();
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -79,12 +80,13 @@ class AppDrawer extends StatelessWidget {
       ),
     );
     if (confirmed == true) {
-      if (!context.mounted) return;
-      Navigator.of(context).pop(); // cierra el drawer
       await AuthService().signOut();
       if (!context.mounted) return;
+      // Se vuelve a montar el AuthGate completo (y no se deja la pantalla
+      // actual "pelada" sin nada escuchando el estado de sesión), para
+      // que cualquier futuro login/logout siga funcionando bien.
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const LoginPage()),
+        MaterialPageRoute(builder: (_) => const AuthGate()),
         (route) => false,
       );
     }

@@ -10,7 +10,7 @@ import '../../services/user_service.dart';
 import '../../theme/app_colors.dart';
 import '../../utils/image_helper.dart';
 import '../../widgets/app_drawer.dart';
-import '../auth/login_page.dart';
+import '../../main.dart';
 
 /// Pantalla de perfil del usuario: datos de la cuenta, información
 /// académica/de visita, eventos agendados y acciones de cuenta.
@@ -360,8 +360,11 @@ class _ProfilePageState extends State<ProfilePage> {
     if (confirmed == true) {
       await _authService.signOut();
       if (!context.mounted) return;
+      // Se vuelve a montar el AuthGate completo (y no un LoginPage suelto)
+      // para que su StreamBuilder quede escuchando de nuevo cualquier
+      // futuro cambio de sesión (login/logout) dentro de esta pantalla.
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const LoginPage()),
+        MaterialPageRoute(builder: (_) => const AuthGate()),
         (route) => false,
       );
     }

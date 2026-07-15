@@ -234,7 +234,7 @@ class _PlacesMapPageState extends State<PlacesMapPage> {
       setState(() => _userPosition = origin);
 
       final result = await _routeService.getWalkingRoute(
-        origin: LatLng(origin!.lat, origin.lng),
+        origin: LatLng(origin.lat, origin.lng),
         destination: LatLng(place.lat, place.lng),
       );
 
