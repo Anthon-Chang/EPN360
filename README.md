@@ -1,4 +1,4 @@
-# EPN 360
+<h1 align="center"> EPN 360 </h1>
 
 Aplicación móvil y web desarrollada en Flutter para la comunidad de la Escuela Politécnica Nacional (EPN), que centraliza en un solo lugar la información de eventos, noticias institucionales y ubicación del campus.
 
@@ -96,6 +96,28 @@ lib/
 ├── utils/                     Utilidades generales (manejo de imágenes, etc.)
 └── widgets/                   Componentes de interfaz reutilizables
 ```
+
+## Pantallas de la aplicación
+
+| Ícono | Splash Screen |
+|---|---|
+| <img width="720" height="1600" alt="WhatsApp Image 2026-07-16 at 10 25 03 AM" src="https://github.com/user-attachments/assets/63b134cd-3bfe-4537-98e4-092df80ea125" />| <img width="720" height="1600" alt="WhatsApp Image 2026-07-16 at 10 25 23 AM" src="https://github.com/user-attachments/assets/9821cb36-e3b8-4e31-95d2-2cdb2229e51a" />|
+| Login | Home |
+| <img width="720" height="1600" alt="WhatsApp Image 2026-07-16 at 10 25 21 AM" src="https://github.com/user-attachments/assets/580fa31d-70e0-4184-bc4e-4203b725cdac" />| <img width="720" height="1600" alt="WhatsApp Image 2026-07-16 at 10 25 22 AM" src="https://github.com/user-attachments/assets/b50962b6-8c6e-4424-b520-2adc5a08644c" />|
+| Mapa | Noticias |
+| <img width="720" height="1600" alt="WhatsApp Image 2026-07-16 at 10 25 23 AM (1)" src="https://github.com/user-attachments/assets/3e08f670-b7be-4885-94c6-39f11b2b8815" />| <img width="720" height="1600" alt="WhatsApp Image 2026-07-16 at 10 25 23 AM (2)" src="https://github.com/user-attachments/assets/196a63e6-e385-477d-9832-bdbf669d9c70" />|
+| Directorio | Perfil |
+| <img width="720" height="1600" alt="WhatsApp Image 2026-07-16 at 10 25 23 AM (3)" src="https://github.com/user-attachments/assets/43f72b6e-43b9-438a-ab9a-1105aa5fc17c" />| <img width="720" height="1600" alt="WhatsApp Image 2026-07-16 at 10 25 23 AM (4)" src="https://github.com/user-attachments/assets/7d28df7e-8fc5-4803-b9e8-e920929b6677" />|
+
+
+## Videos
+
+- Video demostrativo
+
+
+- Video promocional
+
+
 
 ## Instrucciones para ejecutar la aplicación
 
