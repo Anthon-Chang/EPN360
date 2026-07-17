@@ -48,6 +48,18 @@ La aplicación consume las siguientes APIs y servicios externos:
 | Sitio web de la EPN (`epn.edu.ec`) | Obtención de noticias institucionales mediante lectura del contenido público del sitio. En la versión web se utiliza un proxy intermedio para evitar restricciones del navegador (CORS). |
 | Geolocalización del dispositivo | Obtención de la posición actual del usuario y seguimiento en tiempo real durante una ruta. |
 
+## Tecnologías utilizadas
+
+- Flutter
+- Dart
+- Firebase Authentication
+- Cloud Firestore
+- Firebase Storage
+- Flutter Map
+- OpenStreetMap
+- Geolocator
+
+
 ## Uso de Firebase
 
 El backend de la aplicación está construido sobre Firebase. Los servicios utilizados son:
@@ -114,9 +126,31 @@ lib/
 
 - Video demostrativo
 
+https://youtu.be/yeJ_7tgkEps?si=MaXPk9aO-tUKUjaI
 
 - Video promocional
 
+https://vm.tiktok.com/ZS9r1F3LSB4A6-v9R9K/
+
+
+## Descargas
+
+### APK
+
+Disponible en:
+
+https://drive.google.com/drive/folders/1WNAjdw8wpLsFrbKUiNjFU4JEyF2zH9oF?usp=sharing
+
+### AAB
+
+Disponible en:
+
+https://drive.google.com/drive/folders/1uvI0PKfAyMfuS9e4fFdLGdaASzkoltEH?usp=sharing
+
+
+## Publicación
+
+La aplicación fue enviada para publicación en Huawei AppGallery durante el desarrollo del proyecto académico. El proceso de revisión no fue aprobado por la plataforma, por lo que actualmente no se encuentra disponible para descarga desde una tienda oficial.
 
 
 ## Instrucciones para ejecutar la aplicación
@@ -175,6 +209,7 @@ lib/
    ```
    flutter build web
    flutter build apk
+   flutter build appbundle
    ```
 
 ## Integrantes del equipo y roles asignados
@@ -186,3 +221,8 @@ lib/
 | Galeas Tingo Emily Alejandra | Módulo de Noticias |
 | Naula Charco Jhosselin Britani | Frontend |
 | Torres Mora Joel Eduardo | Entorno de desarrollo, conexiones y base de datos |
+
+
+## Estado de cumplimiento del MVP
+
+- https://epn360.netlify.app/
